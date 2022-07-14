@@ -9,5 +9,10 @@ authRouter.post(
   validateSchema(authSchemas.registerSchema),
   authController.register
 );
+authRouter.post(
+  "/login",
+  validateSchema(authSchemas.loginSchema),
+  authController.login
+);
 
 export default authRouter;

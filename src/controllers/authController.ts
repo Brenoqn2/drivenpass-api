@@ -8,5 +8,11 @@ async function register(req: Request, res: Response) {
   res.sendStatus(201);
 }
 
-const authController = { register };
+async function login(req: Request, res: Response) {
+  const { email, password }: Users = req.body;
+  const token = await authService.login(email, password);
+  res.send(token);
+}
+
+const authController = { register, login };
 export default authController;

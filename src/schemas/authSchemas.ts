@@ -5,5 +5,10 @@ const registerSchema = joi.object({
   password: joi.string().min(10).required(),
 });
 
-const authSchemas = { registerSchema };
+const loginSchema = joi.object({
+  email: joi.string().email().required(),
+  password: joi.string().min(10).required(),
+});
+
+const authSchemas = { registerSchema, loginSchema };
 export default authSchemas;

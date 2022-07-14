@@ -9,7 +9,7 @@ async function register(email: string, password: string) {
   });
 }
 
-async function checkEmail(email: string) {
+async function getUser(email: string) {
   const user = await prisma.users.findUnique({
     where: {
       email,
@@ -18,5 +18,14 @@ async function checkEmail(email: string) {
   return user;
 }
 
-const authRepository = { register, checkEmail };
+async function createSession(userId: number, token: string) {
+  await prisma.sessions.create({
+    data: {
+      userId,
+      token,
+    },
+  });
+}
+
+const authRepository = { register, getUser, createSession };
 export default authRepository;
