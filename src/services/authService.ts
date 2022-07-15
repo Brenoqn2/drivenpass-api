@@ -5,7 +5,7 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 
 async function register(email: string, password: string) {
-  const alreadyUsedEmail = await authRepository.getUser(email);
+  const alreadyUsedEmail = await authRepository.getUserByEmail(email);
   if (alreadyUsedEmail) {
     throw {
       type: "error_conflict",
@@ -17,7 +17,7 @@ async function register(email: string, password: string) {
 }
 
 async function login(email: string, password: string) {
-  const user = await authRepository.getUser(email);
+  const user = await authRepository.getUserByEmail(email);
   if (!user) {
     throw {
       type: "error_not_found",
