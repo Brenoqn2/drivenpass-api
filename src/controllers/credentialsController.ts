@@ -8,5 +8,27 @@ async function create(req: Request, res: Response) {
   res.sendStatus(201);
 }
 
-const credentialsController = { create };
+async function getCredentialById(req: Request, res: Response) {
+  const { id } = req.params;
+  if (isNaN(Number(id))) {
+    throw {
+      type: "error_not_found",
+      message: "Credential not found",
+    };
+  }
+  const { userId } = req.body;
+  const credential = await credentialsService.getCredentialById(
+    Number(id),
+    userId
+  );
+  res.send(credential);
+}
+
+async function getUserCredentials(req: Request, res: Response) {
+  const { userId } = req.body;
+  const credentials = await credentialsService.getUserCredentials(userId);
+  res.send(credentials);
+}
+
+const credentialsController = { create, getCredentialById, getUserCredentials };
 export default credentialsController;

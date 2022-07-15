@@ -15,6 +15,9 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err.type === "error_unauthorized") {
     return res.status(401).send(err.message);
   }
+  if (err.type === "error_forbidden") {
+    return res.status(403).send(err.message);
+  }
   if (err.type === "error_internal") {
     console.log(err.message);
     return res.status(500).send("Something went wrong");

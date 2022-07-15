@@ -11,5 +11,15 @@ credentialsRouter.post(
   validateJWT,
   credentialsController.create
 );
+credentialsRouter.get(
+  "/credentials",
+  validateJWT,
+  credentialsController.getUserCredentials
+);
+credentialsRouter.get(
+  "/credentials/:id",
+  validateJWT,
+  credentialsController.getCredentialById
+);
 
 export default credentialsRouter;

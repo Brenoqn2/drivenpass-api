@@ -30,5 +30,31 @@ async function create(
   await credentialsRepository.insertCredential(credential);
 }
 
-const credentialsService = { create };
+async function getCredentialById(id: number, userId: number) {
+  let credential = await credentialsRepository.getCredentialById(id);
+  if (!credential) {
+    throw {
+      type: "error_not_found",
+      message: "Credential not found",
+    };
+  }
+  if (credential.userId !== userId) {
+    throw {
+      type: "error_forbidden",
+      message: "You are not allowed to access this credential",
+    };
+  }
+  credential.password = cryptrInstance.decrypt(credential.password);
+  return credential;
+}
+
+async function getUserCredentials(userId: number) {
+  let credentials = await credentialsRepository.getUserCredentials(userId);
+  credentials.forEach((credential) => {
+    credential.password = cryptrInstance.decrypt(credential.password);
+  });
+  return credentials;
+}
+
+const credentialsService = { create, getCredentialById, getUserCredentials };
 export default credentialsService;
