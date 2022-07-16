@@ -39,10 +39,19 @@ async function getCredentialById(id: number) {
   return credential;
 }
 
+async function deleteCredential(id: number) {
+  await prisma.credentials.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 const credentialsRepository = {
   insertCredential,
   getCredentialByTitleAndId,
   getUserCredentials,
   getCredentialById,
+  deleteCredential,
 };
 export default credentialsRepository;

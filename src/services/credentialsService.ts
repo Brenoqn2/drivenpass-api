@@ -56,5 +56,27 @@ async function getUserCredentials(userId: number) {
   return credentials;
 }
 
-const credentialsService = { create, getCredentialById, getUserCredentials };
+async function deleteCredential(id: number, userId: number) {
+  const credential = await credentialsRepository.getCredentialById(id);
+  if (!credential) {
+    throw {
+      type: "error_not_found",
+      message: "Credential not found",
+    };
+  }
+  if (credential.userId !== userId) {
+    throw {
+      type: "error_forbidden",
+      message: "You are not allowed to delete this credential",
+    };
+  }
+  await credentialsRepository.deleteCredential(id);
+}
+
+const credentialsService = {
+  create,
+  getCredentialById,
+  getUserCredentials,
+  deleteCredential,
+};
 export default credentialsService;

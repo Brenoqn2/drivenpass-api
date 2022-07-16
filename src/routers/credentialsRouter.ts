@@ -21,5 +21,10 @@ credentialsRouter.get(
   validateJWT,
   credentialsController.getCredentialById
 );
+credentialsRouter.delete(
+  "/credentials/:id",
+  validateJWT,
+  credentialsController.deleteUserCredential
+);
 
 export default credentialsRouter;
