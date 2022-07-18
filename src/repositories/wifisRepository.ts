@@ -10,8 +10,28 @@ async function createWifi(wifi: CreateWifi) {
   });
 }
 
+async function getUserWifis(userId: number) {
+  const wifis = await prisma.wifis.findMany({
+    where: {
+      userId,
+    },
+  });
+  return wifis;
+}
+
+async function getWifiById(id: number) {
+  const wifi = await prisma.wifis.findUnique({
+    where: {
+      id,
+    },
+  });
+  return wifi;
+}
+
 const wifisRepository = {
   createWifi,
+  getUserWifis,
+  getWifiById,
 };
 
 export default wifisRepository;

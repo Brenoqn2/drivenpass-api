@@ -20,5 +20,31 @@ async function create(wifi: CreateWifi) {
   await wifisRepository.createWifi(hashedWifi);
 }
 
-const wifisService = { create };
+async function getWifiById(id: number, userId: number) {
+  let wifi = await wifisRepository.getWifiById(id);
+  if (!wifi) {
+    throw {
+      type: "error_not_found",
+      message: "wifi not found",
+    };
+  }
+  if (wifi.userId !== userId) {
+    throw {
+      type: "error_forbidden",
+      message: "You are not allowed to access this wifi",
+    };
+  }
+  wifi.password = cryptrInstance.decrypt(wifi.password);
+  return wifi;
+}
+
+async function getUserWifis(userId: number) {
+  let wifis = await wifisRepository.getUserWifis(userId);
+  wifis.forEach((wifi) => {
+    wifi.password = cryptrInstance.decrypt(wifi.password);
+  });
+  return wifis;
+}
+
+const wifisService = { create, getUserWifis, getWifiById };
 export default wifisService;

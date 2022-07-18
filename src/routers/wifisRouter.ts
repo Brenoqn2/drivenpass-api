@@ -11,5 +11,7 @@ wifisRouter.post(
   validateJWT,
   wifisController.create
 );
+wifisRouter.get("/wi-fi", validateJWT, wifisController.getUserWifis);
+wifisRouter.get("/wi-fi/:id", validateJWT, wifisController.getWifiById);
 
 export default wifisRouter;
