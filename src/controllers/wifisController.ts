@@ -32,10 +32,24 @@ async function getUserWifis(req: Request, res: Response) {
   res.send(wifis);
 }
 
+async function deleteUserWifi(req: Request, res: Response) {
+  const { id } = req.params;
+  if (isNaN(Number(id))) {
+    throw {
+      type: "error_not_found",
+      message: "wifi not found",
+    };
+  }
+  const { userId } = req.body;
+  await wifisService.deleteWifi(Number(id), userId);
+  res.sendStatus(204);
+}
+
 const wifisController = {
   create,
   getWifiById,
   getUserWifis,
+  deleteUserWifi,
 };
 
 export default wifisController;

@@ -28,10 +28,19 @@ async function getWifiById(id: number) {
   return wifi;
 }
 
+async function deleteWifi(id: number) {
+  await prisma.wifis.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 const wifisRepository = {
   createWifi,
   getUserWifis,
   getWifiById,
+  deleteWifi,
 };
 
 export default wifisRepository;

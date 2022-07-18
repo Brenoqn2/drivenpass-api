@@ -46,5 +46,22 @@ async function getUserWifis(userId: number) {
   return wifis;
 }
 
-const wifisService = { create, getUserWifis, getWifiById };
+async function deleteWifi(id: number, userId: number) {
+  const wifi = await wifisRepository.getWifiById(id);
+  if (!wifi) {
+    throw {
+      type: "error_not_found",
+      message: "wifi not found",
+    };
+  }
+  if (wifi.userId !== userId) {
+    throw {
+      type: "error_forbidden",
+      message: "You are not allowed to delete this wifi",
+    };
+  }
+  await wifisRepository.deleteWifi(id);
+}
+
+const wifisService = { create, getUserWifis, getWifiById, deleteWifi };
 export default wifisService;

@@ -13,5 +13,6 @@ wifisRouter.post(
 );
 wifisRouter.get("/wi-fi", validateJWT, wifisController.getUserWifis);
 wifisRouter.get("/wi-fi/:id", validateJWT, wifisController.getWifiById);
+wifisRouter.delete("/wi-fi/:id", validateJWT, wifisController.deleteUserWifi);
 
 export default wifisRouter;
