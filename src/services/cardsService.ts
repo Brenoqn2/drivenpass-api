@@ -33,5 +33,33 @@ async function create(card: CreateCard) {
   await cardsRepository.createCard(hashedCard);
 }
 
-const cardsService = { create };
+async function getCardById(id: number, userId: number) {
+  let card = await cardsRepository.getCardById(id);
+  if (!card) {
+    throw {
+      type: "error_not_found",
+      message: "Card not found",
+    };
+  }
+  if (card.userId !== userId) {
+    throw {
+      type: "error_forbidden",
+      message: "You are not allowed to access this card",
+    };
+  }
+  card.password = cryptrInstance.decrypt(card.password);
+  card.cvv = cryptrInstance.decrypt(card.cvv);
+  return card;
+}
+
+async function getUserCards(userId: number) {
+  let cards = await cardsRepository.getUserCards(userId);
+  cards.forEach((card) => {
+    card.password = cryptrInstance.decrypt(card.password);
+    card.cvv = cryptrInstance.decrypt(card.cvv);
+  });
+  return cards;
+}
+
+const cardsService = { create, getUserCards, getCardById };
 export default cardsService;

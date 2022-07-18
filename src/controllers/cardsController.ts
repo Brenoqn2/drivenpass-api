@@ -26,7 +26,29 @@ async function create(req: Request, res: Response) {
   res.sendStatus(201);
 }
 
+async function getCardById(req: Request, res: Response) {
+  const { id } = req.params;
+  if (isNaN(Number(id))) {
+    throw {
+      type: "error_not_found",
+      message: "card not found",
+    };
+  }
+  const { userId } = req.body;
+  const card = await cardsService.getCardById(Number(id), userId);
+  res.send(card);
+}
+
+async function getUserCards(req: Request, res: Response) {
+  const { userId } = req.body;
+  const cards = await cardsService.getUserCards(userId);
+  res.send(cards);
+}
+
 const cardsController = {
   create,
+  getCardById,
+  getUserCards,
 };
+
 export default cardsController;

@@ -20,9 +20,29 @@ async function getCardByTitleAndId(title: string, userId: number) {
   return card;
 }
 
+async function getUserCards(userId: number) {
+  const cards = await prisma.cards.findMany({
+    where: {
+      userId,
+    },
+  });
+  return cards;
+}
+
+async function getCardById(id: number) {
+  const card = await prisma.cards.findUnique({
+    where: {
+      id,
+    },
+  });
+  return card;
+}
+
 const cardsRepository = {
   createCard,
   getCardByTitleAndId,
+  getUserCards,
+  getCardById,
 };
 
 export default cardsRepository;

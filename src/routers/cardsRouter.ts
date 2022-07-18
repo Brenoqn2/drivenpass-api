@@ -11,5 +11,7 @@ cardsRouter.post(
   validateJWT,
   cardsController.create
 );
+cardsRouter.get("/cards", validateJWT, cardsController.getUserCards);
+cardsRouter.get("/cards/:id", validateJWT, cardsController.getCardById);
 
 export default cardsRouter;
