@@ -61,5 +61,22 @@ async function getUserCards(userId: number) {
   return cards;
 }
 
-const cardsService = { create, getUserCards, getCardById };
+async function deleteCard(id: number, userId: number) {
+  const card = await cardsRepository.getCardById(id);
+  if (!card) {
+    throw {
+      type: "error_not_found",
+      message: "card not found",
+    };
+  }
+  if (card.userId !== userId) {
+    throw {
+      type: "error_forbidden",
+      message: "You are not allowed to delete this card",
+    };
+  }
+  await cardsRepository.deleteCard(id);
+}
+
+const cardsService = { create, getUserCards, getCardById, deleteCard };
 export default cardsService;

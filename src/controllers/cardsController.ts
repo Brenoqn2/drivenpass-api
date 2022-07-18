@@ -45,10 +45,24 @@ async function getUserCards(req: Request, res: Response) {
   res.send(cards);
 }
 
+async function deleteUserCard(req: Request, res: Response) {
+  const { id } = req.params;
+  if (isNaN(Number(id))) {
+    throw {
+      type: "error_not_found",
+      message: "card not found",
+    };
+  }
+  const { userId } = req.body;
+  await cardsService.deleteCard(Number(id), userId);
+  res.sendStatus(204);
+}
+
 const cardsController = {
   create,
   getCardById,
   getUserCards,
+  deleteUserCard,
 };
 
 export default cardsController;

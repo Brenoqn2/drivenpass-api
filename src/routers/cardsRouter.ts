@@ -13,5 +13,6 @@ cardsRouter.post(
 );
 cardsRouter.get("/cards", validateJWT, cardsController.getUserCards);
 cardsRouter.get("/cards/:id", validateJWT, cardsController.getCardById);
+cardsRouter.delete("/cards/:id", validateJWT, cardsController.deleteUserCard);
 
 export default cardsRouter;

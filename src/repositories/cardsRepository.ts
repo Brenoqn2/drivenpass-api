@@ -38,11 +38,20 @@ async function getCardById(id: number) {
   return card;
 }
 
+async function deleteCard(id: number) {
+  await prisma.cards.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 const cardsRepository = {
   createCard,
   getCardByTitleAndId,
   getUserCards,
   getCardById,
+  deleteCard,
 };
 
 export default cardsRepository;
