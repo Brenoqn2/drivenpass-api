@@ -40,11 +40,20 @@ async function getNoteById(id: number) {
   return note;
 }
 
+async function deleteNote(id: number) {
+  await prisma.notes.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 const notesRepository = {
   createNote,
   getNoteByTitleAndId,
   getUserNotes,
   getNoteById,
+  deleteNote,
 };
 
 export default notesRepository;

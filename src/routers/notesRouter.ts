@@ -13,5 +13,6 @@ notesRouter.post(
 );
 notesRouter.get("/notes", validateJWT, notesController.getUserNotes);
 notesRouter.get("/notes/:id", validateJWT, notesController.getNoteById);
+notesRouter.delete("/notes/:id", validateJWT, notesController.deleteUserNote);
 
 export default notesRouter;

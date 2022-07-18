@@ -37,5 +37,22 @@ async function getUserNotes(userId: number) {
   return notes;
 }
 
-const notesService = { create, getNoteById, getUserNotes };
+async function deleteNote(id: number, userId: number) {
+  const note = await notesRepository.getNoteById(id);
+  if (!note) {
+    throw {
+      type: "error_not_found",
+      message: "Note not found",
+    };
+  }
+  if (note.userId !== userId) {
+    throw {
+      type: "error_forbidden",
+      message: "You are not allowed to delete this note",
+    };
+  }
+  await notesRepository.deleteNote(id);
+}
+
+const notesService = { create, getNoteById, getUserNotes, deleteNote };
 export default notesService;
