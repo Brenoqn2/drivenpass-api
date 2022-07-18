@@ -7,5 +7,24 @@ async function createNote(req: Request, res: Response) {
   res.sendStatus(201);
 }
 
-const notesController = { createNote };
+async function getNoteById(req: Request, res: Response) {
+  const { id } = req.params;
+  if (isNaN(Number(id))) {
+    throw {
+      type: "error_not_found",
+      message: "Note not found",
+    };
+  }
+  const { userId } = req.body;
+  const note = await notesService.getNoteById(Number(id), userId);
+  res.send(note);
+}
+
+async function getUserNotes(req: Request, res: Response) {
+  const { userId } = req.body;
+  const credentials = await notesService.getUserNotes(userId);
+  res.send(credentials);
+}
+
+const notesController = { createNote, getUserNotes, getNoteById };
 export default notesController;

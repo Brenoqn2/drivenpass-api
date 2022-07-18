@@ -21,5 +21,30 @@ async function getNoteByTitleAndId(title: string, userId: number) {
   });
   return note;
 }
-const notesRepository = { createNote, getNoteByTitleAndId };
+
+async function getUserNotes(userId: number) {
+  const notes = await prisma.notes.findMany({
+    where: {
+      userId,
+    },
+  });
+  return notes;
+}
+
+async function getNoteById(id: number) {
+  const note = await prisma.notes.findUnique({
+    where: {
+      id,
+    },
+  });
+  return note;
+}
+
+const notesRepository = {
+  createNote,
+  getNoteByTitleAndId,
+  getUserNotes,
+  getNoteById,
+};
+
 export default notesRepository;

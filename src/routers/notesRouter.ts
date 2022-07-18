@@ -11,5 +11,7 @@ notesRouter.post(
   validateJWT,
   notesController.createNote
 );
+notesRouter.get("/notes", validateJWT, notesController.getUserNotes);
+notesRouter.get("/notes/:id", validateJWT, notesController.getNoteById);
 
 export default notesRouter;
