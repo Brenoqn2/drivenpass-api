@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "cards" ALTER COLUMN "cvv" SET DATA TYPE TEXT;
